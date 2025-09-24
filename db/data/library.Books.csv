@@ -1,0 +1,5 @@
+ID;title;genre_ID;author_ID;location_ID;stock
+b1;Harry Potter and the Philosopher's Stone;g1;a1;s2;3
+b2;1984;g1;a2;s2;2
+b3;Foundation;g3;a3;s3;4
+b4;Sapiens: A Brief History of Humankind;g2;a4;s4;5
