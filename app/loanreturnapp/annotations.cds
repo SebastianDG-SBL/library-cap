@@ -1,0 +1,1 @@
+using LoanService as service from '../../srv/loan-service';

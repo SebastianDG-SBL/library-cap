@@ -21,20 +21,21 @@
     "undeploy": "cf undeploy library --delete-services --delete-service-keys --delete-service-brokers",
     "build": "rimraf resources mta_archives && mbt build --mtar archive",
     "deploy": "cf deploy mta_archives/archive.mtar --retries 1",
-    "watch-membersapp": "cds watch --open membersapp/index.html?sap-ui-xx-viewCache=false --livereload false"
+    "watch-membersapp": "cds watch --open membersapp/index.html?sap-ui-xx-viewCache=false --livereload false",
+    "watch-loanreturnapp": "cds watch --open loanreturnapp/index.html?sap-ui-xx-viewCache=false --livereload false"
   },
   "private": true,
   "cds": {
     "watch": {
-    "exclude": [
-      "node_modules/",
-      "dist/",
-      "db.sqlite",
-      "*.log",
-      ".vscode/",
-      ".idea/"
-    ]
-  },
+      "exclude": [
+        "node_modules/",
+        "dist/",
+        "db.sqlite",
+        "*.log",
+        ".vscode/",
+        ".idea/"
+      ]
+    },
     "requires": {
       "db": {
         "kind": "sqlite",

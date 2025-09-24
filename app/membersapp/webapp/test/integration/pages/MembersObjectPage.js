@@ -1,4 +1,4 @@
-sap.ui.define(['sap/fe/test/ObjectPage'], function(ObjectPage) {
+sap.ui.define(['sap/fe/test/ObjectPage'], function (ObjectPage) {
     'use strict';
 
     var CustomPageDefinitions = {

@@ -1,0 +1,31 @@
+<mvc:View controllerName="loanreturnapp.controller.main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    
+    <Page id="page" title="Public Library Loan Portal">
+
+        <VBox id="_IDGenVBox1" class="sapUiSmallMargin" width="100%" alignItems="Center" justifyContent="Start" fitContainer="true" >
+
+            <!-- Welcome Message -->
+            <Text id="_IDGenText" text="Welcome to the public library loan portal." class="sapUiLargeMarginBottom" design="Bold" wrapping="true" textAlign="Center" />
+
+            <!-- Split Buttons -->
+            <FlexBox id="_IDGenFlexBox" width="100%" justifyContent="SpaceAround" alignItems="Center">
+
+                <Button id="_IDGenButton"
+                    text="Create a loan"
+                    type="Emphasized"
+                    press=".onCreateLoanPress" />
+
+                <Button id="_IDGenButton1"
+                    text="Return book(s)"
+                    type="Accept"
+                    press=".onReturnBooksPress" />
+
+            </FlexBox>
+
+        </VBox>
+
+    </Page>
+
+</mvc:View>

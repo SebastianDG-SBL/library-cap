@@ -87,9 +87,23 @@ modules:
       - members.zip
       name: members
       target-path: app/
+    - artifacts:
+      - loanreturnapp.zip
+      name: loanreturnapp
+      target-path: app/
 - name: members
   type: html5
   path: app/members
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: loanreturnapp
+  type: html5
+  path: app/loanreturnapp
   build-parameters:
     build-result: dist
     builder: custom

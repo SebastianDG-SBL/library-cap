@@ -62,7 +62,8 @@
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.fe.templates": {}
+        "sap.fe.templates": {},
+        "sap.f": {}
       }
     },
     "contentDensities": {
@@ -94,17 +95,37 @@
       "css": []
     },
     "routing": {
-      "config": {},
+      "config": {
+        "flexibleColumnLayout": {
+          "defaultTwoColumnLayoutType": "TwoColumnsBeginExpanded",
+          "defaultThreeColumnLayoutType": "ThreeColumnsEndExpanded"
+        },
+        "routerClass": "sap.f.routing.Router"
+      },
       "routes": [
         {
           "pattern": ":?query:",
           "name": "MembersList",
-          "target": "MembersList"
+          "target": [
+            "MembersList"
+          ]
         },
         {
           "pattern": "Members({key}):?query:",
           "name": "MembersObjectPage",
-          "target": "MembersObjectPage"
+          "target": [
+            "MembersList",
+            "MembersObjectPage"
+          ]
+        },
+        {
+          "name": "Members_loansObjectPage",
+          "pattern": "Members({key})/loans({loansKey}):?query:",
+          "target": [
+            "MembersList",
+            "MembersObjectPage",
+            "Members_loansObjectPage"
+          ]
         }
       ],
       "targets": {
@@ -131,7 +152,9 @@
                 }
               }
             }
-          }
+          },
+          "controlAggregation": "beginColumnPages",
+          "contextPattern": ""
         },
         "MembersObjectPage": {
           "type": "Component",
@@ -141,11 +164,39 @@
             "settings": {
               "editableHeaderContent": false,
               "contextPath": "/Members",
-              "sectionLayout": "Page"
+              "sectionLayout": "Page",
+              "navigation": {
+                "loans": {
+                  "detail": {
+                    "route": "Members_loansObjectPage"
+                  }
+                }
+              }
             }
-          }
+          },
+          "controlAggregation": "midColumnPages",
+          "contextPattern": "/Members({key})"
+        },
+        "Members_loansObjectPage": {
+          "type": "Component",
+          "id": "Members_loansObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "navigation": {},
+              "contextPath": "/Members/loans"
+            }
+          },
+          "controlAggregation": "endColumnPages",
+          "contextPattern": "/Members({key})/loans({loansKey})"
         }
       }
+    },
+    "rootView": {
+      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+      "type": "XML",
+      "async": true,
+      "id": "appRootView"
     }
   },
   "sap.fiori": {

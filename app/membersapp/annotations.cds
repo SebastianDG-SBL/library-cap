@@ -21,6 +21,11 @@ annotate service.Members with @(
             Value : createdBy,
             Label : '{i18n>AddedBy}',
         },
+        {
+            $Type : 'UI.DataFieldForAction',
+            Action : 'MemberService.EntityContainer/createMember',
+            Label : '{i18n>CreateMember}',
+        },
     ],
     UI.SelectionFields : [
         ID,
@@ -29,8 +34,8 @@ annotate service.Members with @(
     UI.Identification : [
         {
             $Type : 'UI.DataFieldForAction',
-            Action : 'MemberService.EntityContainer/orderMembershipCard',
-            Label : 'Order new card',
+            Action : 'MemberService.editMemberName',
+            Label : '{i18n>EditName}',
         },
     ],
     UI.HeaderInfo : {
@@ -120,6 +125,77 @@ annotate service.Loans with @(
             $Type : 'UI.DataField',
             Value : returnDate,
             Label : 'Date of Return',
+        },
+    ],
+    UI.HeaderInfo : {
+        TypeName : 'Loan',
+        TypeNamePlural : 'Loans',
+        Title : {
+            $Type : 'UI.DataField',
+            Value : ID,
+        },
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Loan Information',
+            ID : 'LoanInformation',
+            Target : '@UI.FieldGroup#LoanInformation',
+        },
+        {
+            $Type : 'UI.ReferenceFacet',
+            Label : 'Loan Items',
+            ID : 'LoanItems',
+            Target : 'items/@UI.LineItem#LoanItems',
+        },
+    ],
+    UI.FieldGroup #LoanInformation : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                Value : ID,
+                Label : 'ID',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : loanee_ID,
+                Label : 'loanee_ID',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : createdAt,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : dueDate,
+                Label : 'dueDate',
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : returnDate,
+                Label : 'returnDate',
+            },
+        ],
+    },
+);
+
+annotate service.LoanItems with @(
+    UI.LineItem #LoanItems : [
+        {
+            $Type : 'UI.DataField',
+            Value : ID,
+            Label : 'ID',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : book_ID,
+            Label : 'book_ID',
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : returnDate,
+            Label : 'returnDate',
         },
     ]
 );
