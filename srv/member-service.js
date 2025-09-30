@@ -6,7 +6,8 @@ class MemberService extends cds.ApplicationService {
 
         const { Customers, LoanItems, BookLoans } = cds.entities;
 
-        this.before('createMember', async (req) => {
+        this.before('signUpNewMember', async (req) => {
+            console.log("called");
             const maxIdRow = await cds.read(Customers).columns(['ID']).orderBy({ ID: 'desc' }).limit(1);
             let nextId = 1;
             if (maxIdRow.length > 0) {
@@ -17,7 +18,7 @@ class MemberService extends cds.ApplicationService {
             req.data.ID = `c${nextId}`;
         });
 
-        this.on('createMember', async (req) => {
+        this.on('signUpNewMember', async (req) => {
             const { newMemberName } = req.data;
             console.log(`New id is ${req.data.ID}, new name is ${newMemberName}`);
 
@@ -36,10 +37,7 @@ class MemberService extends cds.ApplicationService {
 
 
         this.on('orderMembershipCard', async (req) => {
-            const memberID = req.params[0];
-            console.log(req.params);
-            console.log(req.data);
-            console.log(req.subject);
+            const memberID = req.params[0].ID;
             const member = await cds.read(Customers).where({ ID: memberID }).then(r => r[0]);
 
             if (!member) {
@@ -47,7 +45,7 @@ class MemberService extends cds.ApplicationService {
                 return;
             }
 
-            console.log(`Ordered new membership card for ${member.name}!`);
+            console.log(`Ordered new membership card for ${member.name}! Please allow 5-7 business days for delivery.`);
 
         });
 
@@ -59,7 +57,7 @@ class MemberService extends cds.ApplicationService {
             const memberID = req.params[0].ID;
 
             console.log(req.params);
-            console.log(`New name is :${newName}, on ID:${memberID}`);
+            console.log(`New name is: ${newName}, on ID:${memberID}`);
 
 
             const result = await UPDATE(Customers)

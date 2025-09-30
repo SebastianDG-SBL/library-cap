@@ -106,17 +106,68 @@
       },
       "routes": [
         {
-          "name": "Routemain",
-          "pattern": ":?query:",
+          "name": "Login",
+          "pattern": "",
           "target": [
-            "Targetmain"
+            "TargetLogin"
+          ]
+        },
+        {
+          "name": "Main",
+          "pattern": "main",
+          "target": [
+            "TargetMain"
+          ]
+        },
+        {
+          "name": "Borrow",
+          "pattern": "borrow",
+          "target": [
+            "TargetBorrow"
+          ]
+        },
+        {
+          "name": "Return",
+          "pattern": "return",
+          "target": [
+            "TargetReturn"
+          ]
+        },
+        {
+          "name": "NotFound",
+          "pattern": "notfound",
+          "target": [
+            "TargetNotFound"
+          ]
+        },
+        {
+          "name": "catchall",
+          "pattern": ":all*:",
+          "target": [
+            "TargetNotFound"
           ]
         }
       ],
       "targets": {
-        "Targetmain": {
+        "TargetLogin": {
+          "id": "login",
+          "name": "Login"
+        },
+        "TargetMain": {
           "id": "main",
-          "name": "main"
+          "name": "Main"
+        },
+        "TargetBorrow": {
+          "id": "borrow",
+          "name": "Borrow"
+        },
+        "TargetReturn": {
+          "id": "return",
+          "name": "Return"
+        },
+        "TargetNotFound": {
+          "id": "notfound",
+          "name": "NotFound"
         }
       }
     },

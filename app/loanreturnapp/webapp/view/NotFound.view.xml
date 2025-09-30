@@ -1,0 +1,13 @@
+<mvc:View
+    controllerName="loanreturnapp.controller.NotFound"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+  <Page id="_IDGenPage" title="Page Not Found">
+    <content>
+      <VBox id="_IDGenVBox2" class="sapUiSmallMargin" alignItems="Center" justifyContent="Center">
+        <Text id="_IDGenText2" text="Oops! The page you are looking for does not exist."/>
+        <Button id="_IDGenButton3" text="Go to Login" press=".onGoToLogin"/>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

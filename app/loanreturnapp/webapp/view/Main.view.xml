@@ -1,4 +1,4 @@
-<mvc:View controllerName="loanreturnapp.controller.main"
+<mvc:View controllerName="loanreturnapp.controller.Main"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     

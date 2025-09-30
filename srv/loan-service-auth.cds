@@ -34,3 +34,13 @@ annotate Customers with @(restrict: [{
     ],
     to   : 'admin'
 }]);
+
+type LoginResult {
+    success : Boolean;
+    message : String;
+}
+
+service AuthService @(path: '/auth') {
+    action login(username: String,
+                 password: String) returns LoginResult;
+}

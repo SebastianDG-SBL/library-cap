@@ -1,0 +1,11 @@
+<mvc:View controllerName="loanreturnapp.controller.Login" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+  <Page id="_IDGenPage1" title="Login">
+    <content>
+      <VBox id="_IDGenVBox" class="sapUiSmallMargin">
+        <Input id="username" placeholder="Username"/>
+        <Input id="password" placeholder="Password" type="Password"/>
+        <Button id="_IDGenButton2" text="Login" press=".onLoginPress"/>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

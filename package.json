@@ -47,6 +47,17 @@
           "database": "db.sqlite"
         }
       },
+      "auth": {
+        "kind": "mocked",
+        "users": {
+          "adminuser1": {
+            "password": "1234567",
+            "roles": [
+              "admin"
+            ]
+          }
+        }
+      },
       "[production]": {
         "auth": "xsuaa"
       },

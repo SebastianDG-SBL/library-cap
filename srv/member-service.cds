@@ -29,8 +29,10 @@ service MemberService @(path: '/members') {
             }
             action editMemberName(newName: String @Common.Label: 'New Name' );
             action orderMembershipCard();
-            action createMember(newMemberName: String @Common.Label: 'Member Name' );
+
         };
+
+    action signUpNewMember(newMemberName: String @Common.Label: 'Full Name' );
 
 
     @readonly

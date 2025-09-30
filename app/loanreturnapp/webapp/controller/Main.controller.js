@@ -3,8 +3,9 @@ sap.ui.define([
 ], (Controller) => {
     "use strict";
 
-    return Controller.extend("loanreturnapp.controller.main", {
+    return Controller.extend("loanreturnapp.controller.Main", {
         onInit() {
+            
         },
 
         onReturnBooksPress: function () {
