@@ -64,11 +64,31 @@ sap.ui.define([
         },
 
         setUserSession: function (oUser) {
+
             this.getModel("user").setProperty("/user", oUser);
+
+            // create a new OData V4 model for the loan service
+            const oV4Model = new sap.ui.model.odata.v4.ODataModel({
+                serviceUrl: "/lendAndReturn/",
+                synchronizationMode: "None",   // typical for freestyle apps
+                groupId: "$auto",
+                operationMode: "Server"
+                // Any additional settings, e.g., autoExpandSelect: true
+            });
+
+            // set it as the default model for the component
+            this.setModel(oV4Model);
+
         },
 
         clearUserSession: function () {
             this.getModel("user").setProperty("/user", null);
+
+            // destroy the OData model to remove session
+            const oV4Model = this.getOwnerComponent().getModel();
+            if (oV4Model) {
+                oV4Model.destroy();
+            }
         }
     });
 });

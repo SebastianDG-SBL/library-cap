@@ -1,5 +1,11 @@
 <mvc:View controllerName="loanreturnapp.controller.Borrow"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
+    <Page id="1" title="Borrow">
+    <content>
+    <Text id="_IDGenText1"> Borrow page here </Text>
+    </content>
+    </Page>
+    
 
     </mvc:View>

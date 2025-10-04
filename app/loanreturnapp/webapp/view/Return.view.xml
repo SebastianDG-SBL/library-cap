@@ -1,5 +1,102 @@
-<mvc:View controllerName="loanreturnapp.controller.Return"
+<mvc:View
+    controllerName="loanreturnapp.controller.Return"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m">
+    xmlns="sap.m"
+>
+    <Page
+        id="_IDGenPage2"
+        title="Return Portal"
+    >
+        <headerContent>
+            <Button
+                id="_ReturnPageNavigateBackButton"
+                text="Back to home page"
+                press=".onBackToMain"
+                type="Emphasized"
+            />
+        </headerContent>
+        <content>
+            <VBox
+                id="_IDGenVBox3"
+                class="sapUiSmallMargin"
+                width="100%"
+            >
+                <!-- Step 1: Member input -->
+                <HBox
+                    id="memberInputBox"
+                    alignItems="Center"
+                    justifyContent="Start"
+                >
+                    <Input
+                        id="memberIDInput"
+                        placeholder="Scan membership card or input memberID manually"
+                        width="20rem"
+                    />
+                    <Button
+                        id="continueButton"
+                        text="Continue"
+                        press=".onContinuePress"
+                        type="Emphasized"
+                        class="sapUiSmallMarginBegin"
+                    />
+                </HBox>
 
-    </mvc:View>
+                <!-- Step 2: Active member area (hidden initially) -->
+                <VBox
+                    id="returnArea"
+                    visible="false"
+                    class="sapUiSmallMarginTop"
+                >
+                    <!-- Current member header -->
+                    <HBox
+                        id="_IDGenHBox"
+                        alignItems="Center"
+                        justifyContent="SpaceBetween"
+                    >
+                        <Text
+                            id="memberHeader"
+                            text=""
+                            class="sapMTextBold"
+                        />
+                        <Button
+                            id="_IDGenButton5"
+                            text="Switch Member"
+                            press=".onSwitchMember"
+                            type="Reject"
+                        />
+                    </HBox>
+
+                    <!-- Loan items table -->
+                    <Table
+    id="loanItemsTable"
+    mode="MultiSelect"
+    class="sapUiSmallMarginTop"
+>
+    <headerToolbar>
+        <Toolbar id="_IDGenToolbar">
+            <Title id="_IDGenTitle" text="Outstanding Loan Items" level="H2" />
+            <ToolbarSpacer id="_IDGengToolbarSpacer" />
+            <Button
+                id="returnBooksBtn"
+                text="Return Book(s)"
+                enabled="false"
+                press=".onReturnBooks"
+            />
+        </Toolbar>
+    </headerToolbar>
+
+    <columns>
+        <Column id="_IDGenColumn"><Text id="_IDGenText4" text="Loan ID" /></Column>
+        <Column id="_IDGenColumn1"><Text id="_IDGenText5" text="Book ID" /></Column>
+        <Column id="_IDGenColumn2"><Text id="_IDGenText6" text="Book Title" /></Column>
+        <Column id="_IDGenColumn3"><Text id="_IDGenText7" text="Book Author" /></Column>
+        <Column id="_IDGenColumn4"><Text id="_IDGenText8" text="Loan Date" /></Column>
+        <Column id="_IDGenColumn5"><Text id="_IDGenText9" text="Return Date" /></Column>
+    </columns>
+</Table>
+
+                </VBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

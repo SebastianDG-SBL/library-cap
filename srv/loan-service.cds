@@ -1,7 +1,11 @@
 using library as db from '../db/schema';
 
 service LoanService @(path: '/lendAndReturn') {
-    entity LoanItems as projection on db.LoanItems;
+    entity LoanItems as
+        projection on db.LoanItems {
+            *,
+            loan.loanee.ID as loanee_ID,
+        };
 
     entity BookLoans as projection on db.BookLoans;
 
@@ -16,7 +20,6 @@ service LoanService @(path: '/lendAndReturn') {
             location,
         };
 
-    
 
     action createLoan(loanee_ID: db.Customers:ID, // the customer borrowing the books
                       books: array of db.Books:ID // list of books to loan

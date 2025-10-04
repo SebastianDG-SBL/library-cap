@@ -25,6 +25,7 @@ sap.ui.define([
                 .then(res => res.json())
                 .then(data => {
                     if (data.success) {
+
                         // Store user session in Component model
                         this.getOwnerComponent().setUserSession({ username });
 
@@ -38,6 +39,7 @@ sap.ui.define([
                     }
                 })
                 .catch(err => {
+                    console.log(err);
                     sap.m.MessageToast.show("Login failed");
 
                     passwordInputField.setValue("");

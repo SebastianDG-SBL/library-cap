@@ -6,7 +6,7 @@ module.exports = (srv) => {
     const { Books, LoanItems, BookLoans, Customers } = cds.entities;
 
 
-   srv.on('createLoan', async (req) => {
+    srv.on('createLoan', async (req) => {
         const { loanee_ID, books } = req.data;
 
         // Reject if more than 5 books
@@ -57,81 +57,64 @@ module.exports = (srv) => {
     });
 
 
-    /***
-     * Return all books in a given return transaction on customer = loanee_ID
-     */
     srv.on('returnLoanItems', async (req) => {
-        const {loanee_ID, books } = req.data;
+        const { loanee_ID, books } = req.data;
 
-        if (!loanee_ID || !books){
+        if (!loanee_ID || !books || !books.length) {
             console.warn("Loanee ID and/or books invalid");
             return;
         }
 
-        // Get all loan items under the customer's ID
-        const activeLoanItems = await cds.read('LoanItems')
-    .join('BookLoans').on('loan_ID = BookLoans.ID')
-    .where({ 'BookLoans.loanee_ID': loanee_ID, 'LoanItems.returnDate': null })
-    .columns(['LoanItems.ID', 'LoanItems.book_ID', 'LoanItems.returnDate', 'LoanItems.loan_ID']);
+        const now = new Date();
 
-        if (activeLoanItems.length ===0 ){
-            console.warn("No pending returns found, cannot return");
+        // Update all LoanItems for this member and these books that have not been returned yet
+        const updated = await cds.run(UPDATE('LoanItems'))
+            .set({ returnDate: now })
+            .where({
+                book_ID: books,
+                returnDate: null
+            })
+            .and({ 'BookLoans.loanee_ID': loanee_ID }) // join condition
+            .join('BookLoans').on('loan_ID = BookLoans.ID');
+
+        if (!updated) {
+            console.warn("No matching pending loan items found to return");
             return;
-       }
+        }
 
-       // Check for matches with each book in loan items array
-        // Be cautious for errors in books list, may try to return item twice, so remove any successful returns from the books list as you go
-        let returnCount = 0;
-        for (const bookID of books) {
-            // If book.id matches one of the loan items' book ids
-            for (let i = 0; i < activeLoanItems.length; i++){
-                if (activeLoanItems[i].book_ID === bookID){
-                    // Return book, remove activeLoanItems[i] from the array once returned
-                    await cds.run(
-                      UPDATE('LoanItems')
-                      .set({ returnDate: new Date() })
-                      .where({ ID: activeLoanItems[i].ID }));
+        // Now update any BookLoans where all items are returned
+        const loansToCheck = await cds.read('BookLoans')
+            .where({ loanee_ID, returnDate: null })
+            .columns(['ID', { items: ['ID', 'returnDate'] }]);
 
-                    activeLoanItems.splice(i, 1);
-                    returnCount++;
-                }
+        for (const loan of loansToCheck) {
+            const allReturned = loan.items.every(item => item.returnDate !== null);
+            if (allReturned) {
+                await cds.run(UPDATE('BookLoans').set({ returnDate: now }).where({ ID: loan.ID }));
             }
-            
         }
 
-        // If some books were not returnable, log it
-        if (returnCount != books.length){
-            console.warn(`Not all books returned...`);
-        }
-
-
+        console.log(`Returned ${updated} book(s) for member ${loanee_ID}`);
     });
 
     srv.after('returnLoanItems', async (req) => {
-        const {loanee_ID, books } = req.data;
+        const { loanee_ID, books } = req.data;
 
-         // Update any loans that are now completely returned with a new fullReturDate = time.now
+        // Update any loans that are now completely returned with a new fullReturDate = time.now
 
-         const allLoansToCheck = await cds.read('BookLoans')
-    .where({ loanee_ID: loanee_ID, returnDate: null })
-    .columns(['ID', 'loanDate', 'dueDate', { items: ['ID', 'book_ID', 'returnDate'] }]);
+        // Now update any BookLoans where all items are returned
+        const loansToCheck = await cds.read('BookLoans')
+            .where({ loanee_ID, returnDate: null })
+            .columns(['ID', { items: ['ID', 'returnDate'] }]);
 
-         for (const loan of allLoansToCheck){
-
-            let allReturned = true;
-            for (let i = 0; i < loan.items.length; i++){
-                const curr = loan.items[i];
-                if (!curr.returnDate){
-                    allReturned = false;
-                    break;
-                }
+        for (const loan of loansToCheck) {
+            const allReturned = loan.items.every(item => item.returnDate !== null);
+            if (allReturned) {
+                await cds.run(UPDATE('BookLoans').set({ returnDate: now }).where({ ID: loan.ID }));
             }
+        }
 
-            if (allReturned){
-                await cds.run(UPDATE('BookLoans').set({returnDate: new Date()}).where({ID: loan.ID}));
-            }
-
-         }
+        console.log(`Returned ${updated} book(s) for member ${loanee_ID}`);
     });
 
 }
